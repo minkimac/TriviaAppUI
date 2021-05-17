@@ -1,0 +1,17 @@
+<div style="margin-top: 20px;" *ngFor="let t of trivia; let i = index">
+    <div>
+      <b>Category: </b> <label>{{t.category}}</label>
+    </div>
+    <div>
+      <b>Difficulty: </b> <label>{{t.difficulty}}</label>
+    </div>
+    <div>
+      <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
+    </div>
+    <div>
+      <div><b>Options</b></div>
+      <div *ngFor="let a of t.incorrectAnswers">
+        <input type="radio" value="something"><label>{{a}}</label>
+      </div>
+    </div>
+</div>
