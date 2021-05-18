@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Options, TriviaViewModel } from '../../models/trivia-view-model';
 import { TriviaDataModel } from '../../models/trivia-data-model';
 import { TriviaApiService } from '../../services/trivia-api.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-trivia',
@@ -11,24 +12,26 @@ import { TriviaApiService } from '../../services/trivia-api.service';
 export class TriviaComponent implements OnInit {
   triviaDataModel: Array<TriviaDataModel>;
   triviaViewModel: Array<TriviaViewModel>;
-  _triviaApiService: TriviaApiService;
   incorrectSelections: TriviaViewModel[];
   correctSelections: TriviaViewModel[];
+  triviaSubmitted: boolean;
+  errors: string[];
 
-  constructor(triviaApiService: TriviaApiService) {
+  constructor(private triviaApiService: TriviaApiService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.triviaDataModel = [];
     this.triviaViewModel = [];
     this.incorrectSelections = [];
     this.correctSelections = [];
-    this._triviaApiService = triviaApiService;
+    this.errors = [];
+    this.triviaSubmitted = false;
   }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(){
     await this.getTrivia();
   }
 
   async getTrivia(){
-    await this._triviaApiService.getTrivia().subscribe(async res =>{
+    await this.triviaApiService.getTrivia().subscribe(async res =>{
       this.triviaDataModel = res;
 
       await this.prepareTriviaViewData();
@@ -76,20 +79,37 @@ export class TriviaComponent implements OnInit {
   }
 
   onSubmit(){
+    this.errors=[];
     if(!this.validateForm())
       return;
+    this.triviaSubmitted = true;
     this.incorrectSelections = this.triviaViewModel.filter(t => t.selectedOptionId != t.correctOptionId);
     this.correctSelections = this.triviaViewModel.filter(t => t.selectedOptionId == t.correctOptionId);
   }
 
   validateForm(){
-    if(!this.triviaViewModel.every(t => t.selectedOptionId > 0))
+    if(!this.triviaViewModel.every(t => t.selectedOptionId > 0)){
+      this.errors.push('All questions are mandatory')
       return false;
-    else
+    }
+    else{
+      this.errors = [];
       return true;
+    }
   }
 
   onOptionSelected(questionId:number, optionId:number){
     (this.triviaViewModel.find(t => t.questionId === questionId) as TriviaViewModel).selectedOptionId = optionId;
+  }
+
+  getCorrectOption(questionId: number, correctOptionId: number){
+    return ((this.triviaViewModel.find(t=>t.questionId == questionId) as TriviaViewModel).options.find(o => o.optionId == correctOptionId) as Options).option;
+  }
+
+  onRetakeClick(){
+      let currentUrl = this.router.url;
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate([currentUrl]);
   }
 }

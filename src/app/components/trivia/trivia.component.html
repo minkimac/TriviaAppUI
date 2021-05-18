@@ -1,24 +1,49 @@
 <div class="container">
-    <div *ngFor="let t of triviaViewModel; let i = index">
-      <div class="card col-md-8 my-3">
-        <!-- <div class="row">
-          <b class="col col-md-2">Category: </b> <label class="col col-md-6">{{t.category}}</label>
-        </div>
-        <div class="row">
-          <b class="col col-md-2">Difficulty: </b> <label class="col col-md-6">{{t.difficulty}}</label>
-        </div> -->
-        <div class="card-header">
-          <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Select an option</h5>
-          <div *ngFor="let a of t.options" class="card-text">
-            <input type="radio" class="radio" name="{{a.optionId}}" id="{{a.optionId}}" (change)="onOptionSelected(t.questionId,a.optionId)"><label class="col mx-2">{{a.option}}</label>
-          </div>
-        </div>
+  <h1 class="my-3">Trivia Quiz</h1>
+  <div *ngFor="let t of triviaViewModel; let i = index">
+    <div class="row">
+      <div class="col col-md-6">
+        <b>Category: </b> <label>{{t.category}}</label>
+      </div>
+      <div class="col col-md-6">
+        <b>Difficulty: </b> <label>{{t.difficulty}}</label>
       </div>
     </div>
-    <div class="my-4">
-      <button class="btn btn-primary col-md-4" (click)="onSubmit()">Submit</button>
+    <div class="card col-md-8 my-3">
+      <div class="card-header">
+        <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
+      </div>
+      <div class="card-body">
+        <h6 class="card-title">Select an option</h6>
+        <div *ngFor="let a of t.options" class="card-text">
+          <input type="radio" [disabled]="triviaSubmitted" class="radio" name="{{t.questionId}}" id="{{a.optionId}}"
+            (change)="onOptionSelected(t.questionId,a.optionId)"><label class="col mx-2">{{a.option}}</label>
+        </div>
+      </div>
+      <div *ngIf="triviaSubmitted" class="card-footer text-muted">
+        <span *ngIf="t.selectedOptionId != t.correctOptionId">
+          <span class="text-danger fw-bold">Wrong answer.</span>
+          Right answer is
+          <label class="text-success fw-bold">{{getCorrectOption(t.questionId, t.correctOptionId)}}</label>
+        </span>
+        <span *ngIf="t.selectedOptionId == t.correctOptionId">
+          <span class="text-success fw-bold">Right answer</span>
+        </span>
+      </div>
     </div>
+  </div>
+  <div style="height: 3.5rem">
+  </div>
+  <nav class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Trivia Quiz</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <label *ngFor="let e of errors" class="nav-item fw-bold fs-4 text-danger">{{e}}</label>
+      </ul>
+      <div class="col-md-4">
+        <button class="btn btn-primary col-md-3 me-3" (click)="onSubmit()">Submit</button>
+        <button class="btn btn-outline-dark col-md-2 ms-3" (click)="onRetakeClick()">Re-take quiz</button>
+      </div>
+    </div>
+  </nav>
 </div>
