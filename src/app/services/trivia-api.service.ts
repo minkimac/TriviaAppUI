@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Trivia } from '../models/trivia';
-import { catchError, tap } from 'rxjs/operators';
+import { TriviaDataModel } from '../models/trivia-data-model';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -14,12 +13,12 @@ export class TriviaApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getTrivia():Observable<Trivia[]>{
+  getTrivia():Observable<TriviaDataModel[]>{
 
     let endpointPath = "/api/trivia";
     let url = this.TRIVIA_API_BASE_URL + endpointPath;
 
-    return this.httpClient.get<Trivia[]>(url);
+    return this.httpClient.get<TriviaDataModel[]>(url);
 
   };
 

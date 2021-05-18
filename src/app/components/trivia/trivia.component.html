@@ -1,4 +1,4 @@
-<div style="margin-top: 20px;" *ngFor="let t of trivia; let i = index">
+<div style="margin-top: 20px;" *ngFor="let t of triviaViewModel; let i = index">
     <div>
       <b>Category: </b> <label>{{t.category}}</label>
     </div>
@@ -10,8 +10,8 @@
     </div>
     <div>
       <div><b>Options</b></div>
-      <div *ngFor="let a of t.incorrect_answers">
-        <input type="radio" value="something"><label>{{a}}</label>
+      <div *ngFor="let a of t.answers">
+        <input type="radio" name="{{'optionsQ'+i}}" value="something"><label>{{a}}</label>
       </div>
     </div>
 </div>

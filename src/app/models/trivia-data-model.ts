@@ -1,4 +1,4 @@
-export interface Trivia {
+export interface TriviaDataModel {
     category: string;
     type: string;
     difficulty: string;
