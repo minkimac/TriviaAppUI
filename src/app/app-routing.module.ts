@@ -5,12 +5,12 @@ import { TriviaComponent } from './components/trivia/trivia.component';
 const routes: Routes = [
   {
     path: '',
-    component: TriviaComponent
+    component: TriviaComponent,
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
