@@ -1,17 +1,24 @@
-<div style="margin-top: 20px;" *ngFor="let t of triviaViewModel; let i = index">
-    <div>
-      <b>Category: </b> <label>{{t.category}}</label>
-    </div>
-    <div>
-      <b>Difficulty: </b> <label>{{t.difficulty}}</label>
-    </div>
-    <div>
-      <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
-    </div>
-    <div>
-      <div><b>Options</b></div>
-      <div *ngFor="let a of t.answers">
-        <input type="radio" name="{{'optionsQ'+i}}" value="something"><label>{{a}}</label>
+<div class="container">
+    <div *ngFor="let t of triviaViewModel; let i = index">
+      <div class="card col-md-8 my-3">
+        <!-- <div class="row">
+          <b class="col col-md-2">Category: </b> <label class="col col-md-6">{{t.category}}</label>
+        </div>
+        <div class="row">
+          <b class="col col-md-2">Difficulty: </b> <label class="col col-md-6">{{t.difficulty}}</label>
+        </div> -->
+        <div class="card-header">
+          <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Select an option</h5>
+          <div *ngFor="let a of t.options" class="card-text">
+            <input type="radio" class="radio" name="{{a.optionId}}" id="{{a.optionId}}" (change)="onOptionSelected(t.questionId,a.optionId)"><label class="col mx-2">{{a.option}}</label>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="my-4">
+      <button class="btn btn-primary col-md-4" (click)="onSubmit()">Submit</button>
     </div>
 </div>
