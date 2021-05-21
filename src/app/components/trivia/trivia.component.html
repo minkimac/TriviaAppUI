@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="my-3">Trivia Quiz</h1>
   <div *ngFor="let t of triviaViewModel; let i = index">
-    <div class="row">
+    <div class="row mt-4">
       <div class="col col-md-6">
         <b>Category: </b> <label>{{t.category}}</label>
       </div>
@@ -9,7 +9,7 @@
         <b>Difficulty: </b> <label>{{t.difficulty}}</label>
       </div>
     </div>
-    <div class="card col-md-8 my-3">
+    <div class="card col-md-8">
       <div class="card-header">
         <b>Question {{i+1}}: </b> <label>{{t.question}}</label>
       </div>
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div style="height: 3.5rem">
+  <div style="height: 4.5rem">
   </div>
   <nav class="navbar fixed-bottom navbar-light bg-light">
     <div class="container-fluid">
