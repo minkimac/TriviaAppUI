@@ -9,7 +9,8 @@ import { of } from 'rxjs';
 })
 export class TriviaApiService {
 
-  private TRIVIA_API_BASE_URL = "https://localhost:44337";
+  // private TRIVIA_API_BASE_URL = "https://localhost:44337";
+  private TRIVIA_API_BASE_URL = "https://api-trivia.azurewebsites.net";
 
   constructor(private httpClient: HttpClient) { }
 
